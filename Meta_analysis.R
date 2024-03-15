@@ -1,4 +1,4 @@
-# ---- TB review ----
+# ---- COPD and post-TB cost review ----
 # Meta-analysis and forest plots
 # YL
 ----------------------
@@ -116,6 +116,9 @@ t1<-metamean(tmp1,
              subgroup = `Calculation unit`
 )
 
+# export the plot with high resolution
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_hosp_unit.png', 
+    pointsize=10, width=4000, height=2750,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -125,8 +128,13 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
-       ,smlab = ""
+       ,smlab = "",
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
+dev.off()
+
 #### Income level----
 t1d <- cost %>% filter(disease=="COPD") %>%
   filter(intervention_yn=="No") %>% 
@@ -177,6 +185,8 @@ t1<-metamean(tmp1,
              subgroup = `Income group`
 )
 
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_hosp_income.png', 
+    pointsize=10, width=4000, height=2750,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -186,9 +196,12 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
-       ,smlab = ""
+       ,smlab = "",
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
-
+dev.off()
 
 #### Continent----
 t1d <- cost %>% filter(disease=="COPD") %>%
@@ -244,7 +257,8 @@ t1<-metamean(tmp1,
 # t1$TE<-ifelse(is.na(t1$lower),NA,t1$TE) #pooled effect was the same
 # without CI, mean won't be included in meta analysis!
 
-
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_hosp_continent.png', 
+    pointsize=10, width=4000, height=2750,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -254,9 +268,12 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
-       ,smlab = ""
+       ,smlab = "",
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
-
+dev.off()
 
 #### Country----
 t1d <- cost %>% filter(disease=="COPD") %>%
@@ -315,7 +332,8 @@ t1<-metamean(tmp1,
 # t1$TE<-ifelse(is.na(t1$lower),NA,t1$TE) #pooled effect was the same
 # without CI, mean won't be included in meta analysis!
 
-
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_hosp_country.png', 
+    pointsize=10, width=4000, height=3900,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -325,83 +343,12 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
-       ,smlab = ""
+       ,smlab = "",
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
-
-
-#### TB diagnosis----
-
-### Direct medical costs ----
-#### Income level ----
-# costs are somehow much lower than hospitalization costs
-t1d <- cost %>% filter(disease=="COPD") %>%
-  filter(intervention_yn=="No") %>%
-  filter(!(ref_subgroup=="Estrada JI, 2015 - The whole study population"|
-             ref_subgroup=="Estrada JI, 2015 - Patients who had missing doses"|
-             ref_subgroup=="Estrada JI, 2015 - Patients who had incorrect inhalation technique"|
-             ref_subgroup=="Ture DA, 2021 - With inadequate health literacy"|
-             ref_subgroup=="Ture DA, 2021 - With adequate health literacy"|
-             ref_subgroup=="Vu TQ, 2019 - Outpatient (GOLD III)"|
-             ref_subgroup=="Vu TQ, 2019 - Outpatient (GOLD IV)"
-           # ref_subgroup=="Vu TQ, 2019 - Total Outpatient"|
-  ))
-# %>% 
-#   filter(calculation_unit=="Per acute exacerbation"|calculation_unit=="Per exacerbation"|
-#            calculation_unit=="Per hospitalization"|calculation_unit=="Per hospitalization and per outpatient visit"|
-#            calculation_unit=="Per patient per hospitalization"|calculation_unit=="Per diagnosis"|
-#            calculation_unit=="Per outpatient visit"|calculation_unit=="Per patient per event"|
-#            calculation_unit=="Per per visit for seeking non-domiciliary treatment"|
-#            calculation_unit=="Per prescription")
-
-# table(t1$calculation_unit)
-
-# get SD from mean and CI
-t1d$direct_medical_costs_sd[is.na(t1d$direct_medical_costs_sd)] = 1/1.96*(t1d$direct_medical_costs_mean[is.na(t1d$direct_medical_costs_sd)] -
-                                                                            t1d$direct_medical_costs_ci_low[is.na(t1d$direct_medical_costs_sd)])
-
-tmp = t1d[, c("ref_subgroup", "income_group","continent","country", "direct_medical_costs_n",
-              "direct_medical_costs_mean", "direct_medical_costs_sd",
-              "sample_size_patients","direct_medical_costs_median", 
-              "direct_medical_costs_iqr_low", "direct_medical_costs_iqr_hi", 
-              "direct_medical_costs_range_low", "direct_medical_costs_range_hi",
-              "direct_medical_costs_ci_low", "direct_medical_costs_ci_hi")]
-
-tmp1<-tmp%>%filter((!is.na(tmp[,6])&!is.na(tmp[,7]))|
-                     ((!is.na(tmp[,8])&!is.na(tmp[,9]))&
-                        ((!is.na(tmp[,10])&!is.na(tmp[,11]))|(!is.na(tmp[,12])&!is.na(tmp[,13])))))%>%
-  rename(`Income group`=income_group)
-
-t1<-metamean(tmp1,
-             n=ifelse(is.na(direct_medical_costs_n),sample_size_patients,direct_medical_costs_n), # we get infinitive values for SD
-             # n=sample_size_patients,
-             mean=direct_medical_costs_mean,
-             sd=direct_medical_costs_sd,
-             studlab=ref_subgroup,
-             median=direct_medical_costs_median,
-             q1=direct_medical_costs_iqr_low,
-             q3=direct_medical_costs_iqr_hi,
-             min=direct_medical_costs_range_low,
-             max=direct_medical_costs_range_hi,
-             method.mean = "Luo", #or "Wan"
-             method.sd = "Shi", #or "Wan"
-             random = TRUE,
-             # prediction = TRUE
-             subgroup = `Income group`
-)
-
-
-forest(t1, 
-       # layout = "JAMA",
-       leftcols = c("studlab","mean","sd","n"), #"complab",
-       leftlabs = c("Study","Mean","SD","N"), #"Subgroup",
-       rightlabs = c("Mean","95% CI","W (common)","W (random)"),
-       allstudies = FALSE # remove inestimable effects
-       ,fontsize=9,
-       smlab = ""
-       # ,xlim=c(0,3000)
-)
-# no entry
-
+dev.off()
 
 
 ### Medication costs ----
@@ -448,7 +395,8 @@ t1<-metamean(tmp1,
              subgroup = `Income group`
 )
 
-
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_medication_income.png', 
+    pointsize=10, width=4400, height=2550,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -456,10 +404,13 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE # remove inestimable effects
        ,fontsize=9,
-       smlab = ""
+       smlab = "",
        # ,xlim=c(0,3000)
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
-
+dev.off()
 
 
 #### Country ----
@@ -506,7 +457,8 @@ t1<-metamean(tmp1,
              subgroup = Country
 )
 
-
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_medication_country.png', 
+    pointsize=10, width=4400, height=3900,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -514,66 +466,13 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE # remove inestimable effects
        ,fontsize=9,
-       smlab = ""
+       smlab = "",
        # ,xlim=c(0,3000)
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
-
-### Emergency visit costs ----
-#### Income level ----
-# 2 studies
-t1d <- cost %>% filter(disease=="COPD") %>%
-  filter(intervention_yn=="No") 
-# %>%
-#   filter(!(ref_subgroup=="Akramova EG, 2014 - With comorbidities"|
-#              ref_subgroup=="Vu TQ, 2019 - Outpatient (GOLD III)"|
-#              ref_subgroup=="Vu TQ, 2019 - Outpatient (GOLD IV)"
-#   ))
-
-
-# get SD from mean and CI
-t1d$emergency_visit_costs_sd[is.na(t1d$emergency_visit_costs_sd)] = 1/1.96*(t1d$emergency_visit_costs_mean[is.na(t1d$emergency_visit_costs_sd)] -
-                                                                    t1d$emergency_visit_costs_ci_low[is.na(t1d$emergency_visit_costs_sd)])
-
-tmp = t1d[, c("ref_subgroup", "income_group","continent","country", "emergency_visit_costs_n", #`medication_costs_n` doesn't exist.
-              "emergency_visit_costs_mean", "emergency_visit_costs_sd",
-              "sample_size_patients","emergency_visit_costs_median", 
-              "emergency_visit_costs_iqr_low", "emergency_visit_costs_iqr_hi", 
-              "emergency_visit_costs_range_low", "emergency_visit_costs_range_hi",
-              "emergency_visit_costs_ci_low", "emergency_visit_costs_ci_hi")]
-
-tmp1<-tmp%>%filter((!is.na(tmp[,6])&!is.na(tmp[,7]))|
-                     ((!is.na(tmp[,8])&!is.na(tmp[,9]))&
-                        ((!is.na(tmp[,10])&!is.na(tmp[,11]))|(!is.na(tmp[,12])&!is.na(tmp[,13])))))%>%
-  rename(`Income group`=income_group)
-
-t1<-metamean(tmp1,
-             n=sample_size_patients,
-             mean=emergency_visit_costs_mean,
-             sd=emergency_visit_costs_sd,
-             studlab=ref_subgroup,
-             median=emergency_visit_costs_median,
-             q1=emergency_visit_costs_iqr_low,
-             q3=emergency_visit_costs_iqr_hi,
-             min=emergency_visit_costs_range_low,
-             max=emergency_visit_costs_range_hi,
-             method.mean = "Luo", #or "Wan"
-             method.sd = "Shi", #or "Wan"
-             random = TRUE,
-             # prediction = TRUE
-             subgroup = `Income group`
-)
-
-
-forest(t1, 
-       # layout = "JAMA",
-       leftcols = c("studlab","mean","sd","n"), #"complab",
-       leftlabs = c("Study","Mean","SD","N"), #"Subgroup",
-       rightlabs = c("Mean","95% CI","W (common)","W (random)"),
-       allstudies = FALSE # remove inestimable effects
-       ,fontsize=9,
-       smlab = ""
-       # ,xlim=c(0,3000)
-)
+dev.off()
 
 
 ### Outpatient costs ----
@@ -616,7 +515,8 @@ t1<-metamean(tmp1,
              subgroup = `Income group`
 )
 
-
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_outpatient_income.png', 
+    pointsize=10, width=3400, height=1700,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -624,9 +524,13 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE # remove inestimable effects
        ,fontsize=9,
-       smlab = ""
+       smlab = "",
        # ,xlim=c(0,3000)
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
+dev.off()
 
 #### Country ----
 # Each country has one study
@@ -668,7 +572,8 @@ t1<-metamean(tmp1,
              subgroup = Country
 )
 
-
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_outpatient_country.png', 
+    pointsize=10, width=3400, height=1700,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -676,156 +581,19 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE # remove inestimable effects
        ,fontsize=9,
-       smlab = ""
+       smlab = "",
        # ,xlim=c(0,3000)
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
+dev.off()
 
-
-
-
-### Direct  costs ----
-#### Income level ----
-# costs are somehow lower than hospitalization costs
-t1d <- cost %>% filter(disease=="COPD") %>%
-  filter(intervention_yn=="No") 
-# %>% 
-#   filter(calculation_unit=="Per acute exacerbation"|calculation_unit=="Per exacerbation"|
-#            calculation_unit=="Per hospitalization"|calculation_unit=="Per hospitalization and per outpatient visit"|
-#            calculation_unit=="Per patient per hospitalization"|calculation_unit=="Per diagnosis"|
-#            calculation_unit=="Per outpatient visit"|calculation_unit=="Per patient per event"|
-#            calculation_unit=="Per per visit for seeking non-domiciliary treatment"|
-#            calculation_unit=="Per prescription")
-
-# table(t1$calculation_unit)
-
-# get SD from mean and CI
-t1d$direct_medical_costs_sd[is.na(t1d$direct_costs_sd)] = 1/1.96*(t1d$direct_costs_mean[is.na(t1d$direct_costs_sd)] -
-                                                                            t1d$direct_costs_ci_low[is.na(t1d$direct_costs_sd)])
-
-tmp = t1d[, c("ref_subgroup", "income_group","continent","country", "direct_costs_n",
-              "direct_costs_mean", "direct_costs_sd",
-              "sample_size_patients","direct_costs_median", 
-              "direct_costs_iqr_low", "direct_costs_iqr_hi", 
-              "direct_costs_range_low", "direct_costs_range_hi",
-              "direct_costs_ci_low", "direct_costs_ci_hi")]
-
-tmp1<-tmp%>%filter((!is.na(tmp[,6])&!is.na(tmp[,7]))|
-                     ((!is.na(tmp[,8])&!is.na(tmp[,9]))&
-                        ((!is.na(tmp[,10])&!is.na(tmp[,11]))|(!is.na(tmp[,12])&!is.na(tmp[,13])))))%>%
-  rename(`Income group`=income_group)
-
-t1<-metamean(tmp1,
-             n=ifelse(is.na(direct_costs_n),sample_size_patients,direct_costs_n), # we get infinitive values for SD
-             # n=sample_size_patients,
-             mean=direct_costs_mean,
-             sd=direct_costs_sd,
-             studlab=ref_subgroup,
-             median=direct_costs_median,
-             q1=direct_costs_iqr_low,
-             q3=direct_costs_iqr_hi,
-             min=direct_costs_range_low,
-             max=direct_costs_range_hi,
-             method.mean = "Luo", #or "Wan"
-             method.sd = "Shi", #or "Wan"
-             random = TRUE,
-             # prediction = TRUE
-             subgroup = `Income group`
-)
-
-
-forest(t1, 
-       # layout = "JAMA",
-       leftcols = c("studlab","mean","sd","n"), #"complab",
-       leftlabs = c("Study","Mean","SD","N"), #"Subgroup",
-       rightlabs = c("Mean","95% CI","W (common)","W (random)"),
-       allstudies = FALSE # remove inestimable effects
-       ,fontsize=9,
-       smlab = ""
-       # ,xlim=c(0,3000)
-)
-# no entry
 
 
 
 ## AECOPD ----
 ### Hospitalization ----
-#### Remove multiple years - calculation unit ----
-t1d <- cost %>% filter(disease=="AECOPD") %>%
-  filter(intervention_yn=="No") %>%
-  filter(!(ref_subgroup=="Pothirat C, 2015 - Managed by internist"|
-             ref_subgroup=="Pothirat C, 2015 - Managed by pulmonologist"|
-             ref_id=="Reechaipichitkul W, 2014"))%>%
-  filter(!(ref_subgroup=="Li F, 2018 - Total study population"|
-             ref_subgroup=="Li F, 2018 - Length of stay in hospital <8 days"|
-             ref_subgroup=="Li F, 2018 - Length of stay in hospital ≥8 days"|
-             ref_subgroup=="Mao X, 2021 - The whole study population"|
-             ref_subgroup=="Wang S, 2021 - The whole study population"|
-             ref_subgroup=="Zeng Q, 2021 - Eosinophilic group, aged >65"|
-             ref_subgroup=="Zeng Q, 2021 - Non-eosinophilic group, aged >65"|
-             ref_subgroup=="Zeng Q, 2021 - Eosinophilic group, aged 45-65"|
-             ref_subgroup=="Zeng Q, 2021 - Non-eosinophilic group, aged 45-65"|
-             ref_subgroup=="Cui Y, 2021b - Eosinophilic (before propensity score matching)" |
-             ref_subgroup=="Cui Y, 2021b - Non-eosinophilic (before propensity score matching)" 
-  ))%>%
-  filter(!(ref_id=="Liang L, 2020a"&(subgroup_short %in% c("2008","2009","2010","2011","2012","2013","2014","2015","2016")))) %>%
-  filter(!(ref_id=="Liang L, 2020b"&(subgroup_short %in% c("2008","2009","2010","2011","2012","2013","2014","2015","2016"))))
-
-# table(t1d$perspective)
-
-t1d<-t1d%>%mutate(cal_unit_new=case_when(calculation_unit %in% c("Per exacerbation","Per hospitalization",
-                                                                 "Per patient per hospitalization") ~ "Per event",
-                                         calculation_unit %in% c("Per patient over 6 months","Per year per patient",
-                                                                 "Per patient") ~ "Per patient",
-                                         TRUE ~ calculation_unit))%>%
-  rename(`Calculation unit`=cal_unit_new)
-
-# get SD from mean and CI
-t1d$hospitalization_costs_sd[is.na(t1d$hospitalization_costs_sd)] = 1/1.96*(t1d$hospitalization_costs_mean[is.na(t1d$hospitalization_costs_sd)] -
-                                                                              t1d$hospitalization_costs_ci_low[is.na(t1d$hospitalization_costs_sd)])
-
-tmp = t1d[, c("ref_subgroup", "income_group","continent","country", "hospitalization_costs_n",
-              "hospitalization_costs_mean", "hospitalization_costs_sd",
-              "sample_size_patients","hospitalization_costs_median", 
-              "hospitalization_costs_iqr_low", "hospitalization_costs_iqr_hi", 
-              "hospitalization_costs_range_low", "hospitalization_costs_range_hi",
-              "hospitalization_costs_ci_low", "hospitalization_costs_ci_hi","Calculation unit")]
-
-tmp1<-tmp%>%filter((!is.na(tmp[,6])&!is.na(tmp[,7]))| # select studies with contribution to meta-analysis
-                     ((!is.na(tmp[,8])&!is.na(tmp[,9]))&
-                        ((!is.na(tmp[,10])&!is.na(tmp[,11]))|(!is.na(tmp[,12])&!is.na(tmp[,13])))))
-
-t1<-metamean(tmp1,
-             n=ifelse(is.na(hospitalization_costs_n),sample_size_patients,hospitalization_costs_n), # we get infinitive values for SD
-             # n=sample_size_patients,
-             mean=hospitalization_costs_mean,
-             sd=hospitalization_costs_sd,
-             studlab=ref_subgroup,
-             median=hospitalization_costs_median,
-             q1=hospitalization_costs_iqr_low,
-             q3=hospitalization_costs_iqr_hi,
-             min=hospitalization_costs_range_low,
-             max=hospitalization_costs_range_hi,
-             method.mean = "Luo", #or "Wan"
-             method.sd = "Shi", #or "Wan"
-             random = TRUE,
-             # prediction = TRUE,
-             sm = "MLN",
-             subgroup = `Calculation unit`
-)
-
-forest(t1, 
-       # subgroup=T,
-       # layout = "JAMA",
-       sortvar = TE,
-       leftcols = c("studlab","mean","sd","n"), #"complab",
-       leftlabs = c("Study","Mean","SD","N"), #"Subgroup",
-       rightlabs = c("Mean","95% CI","W (common)","W (random)"),
-       allstudies = FALSE, # remove inestimable effects
-       fontsize=9
-       ,smlab = ""
-)
-
-
 #### Calculation unit ----
 t1d <- cost %>% filter(disease=="AECOPD") %>%
   filter(intervention_yn=="No") %>%
@@ -889,6 +657,8 @@ t1<-metamean(tmp1,
              subgroup = `Calculation unit`
 )
 
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_hosp_unit.png', 
+    pointsize=10, width=5050, height=5700,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -898,9 +668,12 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
-       ,smlab = ""
+       ,smlab = "",
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
-
+dev.off()
 
 #### Income level----
 # same as per event
@@ -964,6 +737,8 @@ t1<-metamean(tmp1,
 # t1$TE<-ifelse(is.na(t1$lower),NA,t1$TE) #pooled effect was the same
 # without CI, mean won't be included in meta analysis!
 
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_hosp_income.png', 
+    pointsize=10, width=5050, height=5700,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -973,8 +748,12 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
-       ,smlab = ""
+       ,smlab = "",
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
+dev.off()
 
 #### Continent----
 # same as per event
@@ -1038,6 +817,8 @@ t1<-metamean(tmp1,
 # t1$TE<-ifelse(is.na(t1$lower),NA,t1$TE) #pooled effect was the same
 # without CI, mean won't be included in meta analysis!
 
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_hosp_continent.png', 
+    pointsize=10, width=5050, height=5700,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -1047,8 +828,12 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
-       ,smlab = ""
+       ,smlab = "",
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
+dev.off()
 
 #### Country----
 # same as per event
@@ -1112,6 +897,8 @@ t1<-metamean(tmp1,
 # t1$TE<-ifelse(is.na(t1$lower),NA,t1$TE) #pooled effect was the same
 # without CI, mean won't be included in meta analysis!
 
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_hosp_country.png', 
+    pointsize=10, width=5050, height=7000,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -1121,69 +908,12 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
-       ,smlab = ""
+       ,smlab = "",
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
-
-
-
-
-### Direct medical costs ----
-#### Income level ----
-# costs are somehow much lower than hospitalization costs
-# 5 entries in total
-t1d <- cost %>% filter(disease=="AECOPD") %>%
-  filter(intervention_yn=="No") %>%
-  filter(!(ref_subgroup=="Torabipour A, 2016 - Length of stay ≤ 9 days"|
-             ref_subgroup=="Torabipour A, 2016 - Length of stay > 9 days"|
-             ref_subgroup=="Torabipour A, 2016 - Age <65"|
-             ref_subgroup=="Torabipour A, 2016 - Age >65"))
-
-# get SD from mean and CI
-t1d$direct_medical_costs_sd[is.na(t1d$direct_medical_costs_sd)] = 1/1.96*(t1d$direct_medical_costs_mean[is.na(t1d$direct_medical_costs_sd)] -
-                                                                            t1d$direct_medical_costs_ci_low[is.na(t1d$direct_medical_costs_sd)])
-
-tmp = t1d[, c("ref_subgroup", "income_group","continent","country", "direct_medical_costs_n",
-              "direct_medical_costs_mean", "direct_medical_costs_sd",
-              "sample_size_patients","direct_medical_costs_median", 
-              "direct_medical_costs_iqr_low", "direct_medical_costs_iqr_hi", 
-              "direct_medical_costs_range_low", "direct_medical_costs_range_hi",
-              "direct_medical_costs_ci_low", "direct_medical_costs_ci_hi")]
-
-tmp1<-tmp%>%filter((!is.na(tmp[,6])&!is.na(tmp[,7]))|
-                     ((!is.na(tmp[,8])&!is.na(tmp[,9]))&
-                        ((!is.na(tmp[,10])&!is.na(tmp[,11]))|(!is.na(tmp[,12])&!is.na(tmp[,13])))))%>%
-  rename(`Income group`=income_group)
-
-t1<-metamean(tmp1,
-             n=ifelse(is.na(direct_medical_costs_n),sample_size_patients,direct_medical_costs_n), # we get infinitive values for SD
-             # n=sample_size_patients,
-             mean=direct_medical_costs_mean,
-             sd=direct_medical_costs_sd,
-             studlab=ref_subgroup,
-             median=direct_medical_costs_median,
-             q1=direct_medical_costs_iqr_low,
-             q3=direct_medical_costs_iqr_hi,
-             min=direct_medical_costs_range_low,
-             max=direct_medical_costs_range_hi,
-             method.mean = "Luo", #or "Wan"
-             method.sd = "Shi", #or "Wan"
-             random = TRUE,
-             # prediction = TRUE
-             subgroup = `Income group`
-)
-
-
-forest(t1, 
-       # layout = "JAMA",
-       leftcols = c("studlab","mean","sd","n"), #"complab",
-       leftlabs = c("Study","Mean","SD","N"), #"Subgroup",
-       rightlabs = c("Mean","95% CI","W (common)","W (random)"),
-       allstudies = FALSE # remove inestimable effects
-       ,fontsize=9,
-       smlab = ""
-       # ,xlim=c(0,3000)
-)
-# no entry
+dev.off()
 
 
 
@@ -1232,7 +962,8 @@ t1<-metamean(tmp1,
              subgroup = `Income group`
 )
 
-
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_medication_income.png', 
+    pointsize=10, width=4800, height=2600,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -1240,10 +971,13 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE # remove inestimable effects
        ,fontsize=9,
-       smlab = ""
+       smlab = "",
        # ,xlim=c(0,3000)
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
-
+dev.off()
 
 
 #### Country ----
@@ -1290,7 +1024,8 @@ t1<-metamean(tmp1,
              subgroup = Country
 )
 
-
+png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_medication_country.png', 
+    pointsize=10, width=4800, height=4250,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -1298,69 +1033,14 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE # remove inestimable effects
        ,fontsize=9,
-       smlab = ""
+       smlab = "",
        # ,xlim=c(0,3000)
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
+dev.off()
 
-
-
-
-### Emergency visit costs ----
-#### Income level ----
-# 1 entry
-t1d <- cost %>% filter(disease=="AECOPD") %>%
-  filter(intervention_yn=="No") 
-# %>%
-#   filter(!(ref_subgroup=="Akramova EG, 2014 - With comorbidities"|
-#              ref_subgroup=="Vu TQ, 2019 - Outpatient (GOLD III)"|
-#              ref_subgroup=="Vu TQ, 2019 - Outpatient (GOLD IV)"
-#   ))
-
-
-# get SD from mean and CI
-t1d$emergency_visit_costs_sd[is.na(t1d$emergency_visit_costs_sd)] = 1/1.96*(t1d$emergency_visit_costs_mean[is.na(t1d$emergency_visit_costs_sd)] -
-                                                                              t1d$emergency_visit_costs_ci_low[is.na(t1d$emergency_visit_costs_sd)])
-
-tmp = t1d[, c("ref_subgroup", "income_group","continent","country", "emergency_visit_costs_n", #`medication_costs_n` doesn't exist.
-              "emergency_visit_costs_mean", "emergency_visit_costs_sd",
-              "sample_size_patients","emergency_visit_costs_median", 
-              "emergency_visit_costs_iqr_low", "emergency_visit_costs_iqr_hi", 
-              "emergency_visit_costs_range_low", "emergency_visit_costs_range_hi",
-              "emergency_visit_costs_ci_low", "emergency_visit_costs_ci_hi")]
-
-tmp1<-tmp%>%filter((!is.na(tmp[,6])&!is.na(tmp[,7]))|
-                     ((!is.na(tmp[,8])&!is.na(tmp[,9]))&
-                        ((!is.na(tmp[,10])&!is.na(tmp[,11]))|(!is.na(tmp[,12])&!is.na(tmp[,13])))))%>%
-  rename(`Income group`=income_group)
-
-t1<-metamean(tmp1,
-             n=sample_size_patients,
-             mean=emergency_visit_costs_mean,
-             sd=emergency_visit_costs_sd,
-             studlab=ref_subgroup,
-             median=emergency_visit_costs_median,
-             q1=emergency_visit_costs_iqr_low,
-             q3=emergency_visit_costs_iqr_hi,
-             min=emergency_visit_costs_range_low,
-             max=emergency_visit_costs_range_hi,
-             method.mean = "Luo", #or "Wan"
-             method.sd = "Shi", #or "Wan"
-             random = TRUE,
-             # prediction = TRUE
-             subgroup = `Income group`
-)
-
-
-forest(t1, 
-       # layout = "JAMA",
-       leftcols = c("studlab","mean","sd","n"), #"complab",
-       leftlabs = c("Study","Mean","SD","N"), #"Subgroup",
-       rightlabs = c("Mean","95% CI","W (common)","W (random)"),
-       allstudies = FALSE # remove inestimable effects
-       ,fontsize=9,
-       smlab = ""
-       # ,xlim=c(0,3000)
-)
 
 
 
@@ -1412,8 +1092,11 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE # remove inestimable effects
        ,fontsize=9,
-       smlab = ""
+       smlab = "",
        # ,xlim=c(0,3000)
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
 
 
@@ -1465,71 +1148,12 @@ forest(t1,
        rightlabs = c("Mean","95% CI","W (common)","W (random)"),
        allstudies = FALSE # remove inestimable effects
        ,fontsize=9,
-       smlab = ""
+       smlab = "",
        # ,xlim=c(0,3000)
+       digits.mean = 1,
+       digits.sd = 1,
+       digits = 1
 )
 
 
-
-### Direct  costs ----
-#### Income level ----
-# costs are somehow lower than hospitalization costs
-t1d <- cost %>% filter(disease=="AECOPD") %>%
-  filter(intervention_yn=="No") 
-# %>% 
-#   filter(calculation_unit=="Per acute exacerbation"|calculation_unit=="Per exacerbation"|
-#            calculation_unit=="Per hospitalization"|calculation_unit=="Per hospitalization and per outpatient visit"|
-#            calculation_unit=="Per patient per hospitalization"|calculation_unit=="Per diagnosis"|
-#            calculation_unit=="Per outpatient visit"|calculation_unit=="Per patient per event"|
-#            calculation_unit=="Per per visit for seeking non-domiciliary treatment"|
-#            calculation_unit=="Per prescription")
-
-# table(t1$calculation_unit)
-
-# get SD from mean and CI
-t1d$direct_medical_costs_sd[is.na(t1d$direct_costs_sd)] = 1/1.96*(t1d$direct_costs_mean[is.na(t1d$direct_costs_sd)] -
-                                                                    t1d$direct_costs_ci_low[is.na(t1d$direct_costs_sd)])
-
-tmp = t1d[, c("ref_subgroup", "income_group","continent","country", "direct_costs_n",
-              "direct_costs_mean", "direct_costs_sd",
-              "sample_size_patients","direct_costs_median", 
-              "direct_costs_iqr_low", "direct_costs_iqr_hi", 
-              "direct_costs_range_low", "direct_costs_range_hi",
-              "direct_costs_ci_low", "direct_costs_ci_hi")]
-
-tmp1<-tmp%>%filter((!is.na(tmp[,6])&!is.na(tmp[,7]))|
-                     ((!is.na(tmp[,8])&!is.na(tmp[,9]))&
-                        ((!is.na(tmp[,10])&!is.na(tmp[,11]))|(!is.na(tmp[,12])&!is.na(tmp[,13])))))%>%
-  rename(`Income group`=income_group)
-
-t1<-metamean(tmp1,
-             n=ifelse(is.na(direct_costs_n),sample_size_patients,direct_costs_n), # we get infinitive values for SD
-             # n=sample_size_patients,
-             mean=direct_costs_mean,
-             sd=direct_costs_sd,
-             studlab=ref_subgroup,
-             median=direct_costs_median,
-             q1=direct_costs_iqr_low,
-             q3=direct_costs_iqr_hi,
-             min=direct_costs_range_low,
-             max=direct_costs_range_hi,
-             method.mean = "Luo", #or "Wan"
-             method.sd = "Shi", #or "Wan"
-             random = TRUE,
-             # prediction = TRUE
-             subgroup = `Income group`
-)
-
-
-forest(t1, 
-       # layout = "JAMA",
-       leftcols = c("studlab","mean","sd","n"), #"complab",
-       leftlabs = c("Study","Mean","SD","N"), #"Subgroup",
-       rightlabs = c("Mean","95% CI","W (common)","W (random)"),
-       allstudies = FALSE # remove inestimable effects
-       ,fontsize=9,
-       smlab = ""
-       # ,xlim=c(0,3000)
-)
-# no entry
 
