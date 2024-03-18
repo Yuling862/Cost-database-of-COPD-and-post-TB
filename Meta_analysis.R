@@ -117,8 +117,8 @@ t1<-metamean(tmp1,
 )
 
 # export the plot with high resolution
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_hosp_unit.png', 
-    pointsize=10, width=4000, height=2750,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/COPD_hosp_unit.png', 
+    pointsize=10, width=4200, height=2750,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -129,9 +129,9 @@ forest(t1,
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
        ,smlab = "",
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -185,8 +185,8 @@ t1<-metamean(tmp1,
              subgroup = `Income group`
 )
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_hosp_income.png', 
-    pointsize=10, width=4000, height=2750,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/COPD_hosp_income.png', 
+    pointsize=10, width=4200, height=2750,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -197,9 +197,9 @@ forest(t1,
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
        ,smlab = "",
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -257,8 +257,8 @@ t1<-metamean(tmp1,
 # t1$TE<-ifelse(is.na(t1$lower),NA,t1$TE) #pooled effect was the same
 # without CI, mean won't be included in meta analysis!
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_hosp_continent.png', 
-    pointsize=10, width=4000, height=2750,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/COPD_hosp_continent.png', 
+    pointsize=10, width=4200, height=2750,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -269,9 +269,9 @@ forest(t1,
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
        ,smlab = "",
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -332,8 +332,8 @@ t1<-metamean(tmp1,
 # t1$TE<-ifelse(is.na(t1$lower),NA,t1$TE) #pooled effect was the same
 # without CI, mean won't be included in meta analysis!
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_hosp_country.png', 
-    pointsize=10, width=4000, height=3900,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/COPD_hosp_country.png', 
+    pointsize=10, width=4200, height=3900,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -344,9 +344,9 @@ forest(t1,
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
        ,smlab = "",
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -395,8 +395,8 @@ t1<-metamean(tmp1,
              subgroup = `Income group`
 )
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_medication_income.png', 
-    pointsize=10, width=4400, height=2550,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/COPD_medication_income.png', 
+    pointsize=10, width=4600, height=2550,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -406,9 +406,9 @@ forest(t1,
        ,fontsize=9,
        smlab = "",
        # ,xlim=c(0,3000)
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -457,8 +457,8 @@ t1<-metamean(tmp1,
              subgroup = Country
 )
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_medication_country.png', 
-    pointsize=10, width=4400, height=3900,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/COPD_medication_country.png', 
+    pointsize=10, width=4600, height=3900,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -468,9 +468,9 @@ forest(t1,
        ,fontsize=9,
        smlab = "",
        # ,xlim=c(0,3000)
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -515,8 +515,8 @@ t1<-metamean(tmp1,
              subgroup = `Income group`
 )
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_outpatient_income.png', 
-    pointsize=10, width=3400, height=1700,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/COPD_outpatient_income.png', 
+    pointsize=10, width=3600, height=1700,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -526,9 +526,9 @@ forest(t1,
        ,fontsize=9,
        smlab = "",
        # ,xlim=c(0,3000)
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -572,8 +572,8 @@ t1<-metamean(tmp1,
              subgroup = Country
 )
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/COPD_outpatient_country.png', 
-    pointsize=10, width=3400, height=1700,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/COPD_outpatient_country.png', 
+    pointsize=10, width=3600, height=1700,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -583,9 +583,9 @@ forest(t1,
        ,fontsize=9,
        smlab = "",
        # ,xlim=c(0,3000)
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -657,8 +657,8 @@ t1<-metamean(tmp1,
              subgroup = `Calculation unit`
 )
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_hosp_unit.png', 
-    pointsize=10, width=5050, height=5700,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/AECOPD_hosp_unit.png', 
+    pointsize=10, width=5250, height=5700,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -669,9 +669,9 @@ forest(t1,
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
        ,smlab = "",
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -737,8 +737,8 @@ t1<-metamean(tmp1,
 # t1$TE<-ifelse(is.na(t1$lower),NA,t1$TE) #pooled effect was the same
 # without CI, mean won't be included in meta analysis!
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_hosp_income.png', 
-    pointsize=10, width=5050, height=5700,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/AECOPD_hosp_income.png', 
+    pointsize=10, width=5250, height=5700,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -749,9 +749,9 @@ forest(t1,
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
        ,smlab = "",
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -817,8 +817,8 @@ t1<-metamean(tmp1,
 # t1$TE<-ifelse(is.na(t1$lower),NA,t1$TE) #pooled effect was the same
 # without CI, mean won't be included in meta analysis!
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_hosp_continent.png', 
-    pointsize=10, width=5050, height=5700,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/AECOPD_hosp_continent.png', 
+    pointsize=10, width=5250, height=5700,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -829,9 +829,9 @@ forest(t1,
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
        ,smlab = "",
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -897,8 +897,8 @@ t1<-metamean(tmp1,
 # t1$TE<-ifelse(is.na(t1$lower),NA,t1$TE) #pooled effect was the same
 # without CI, mean won't be included in meta analysis!
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_hosp_country.png', 
-    pointsize=10, width=5050, height=7000,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/AECOPD_hosp_country.png', 
+    pointsize=10, width=5250, height=7000,res=400)
 forest(t1, 
        # subgroup=T,
        # layout = "JAMA",
@@ -909,9 +909,9 @@ forest(t1,
        allstudies = FALSE, # remove inestimable effects
        fontsize=9
        ,smlab = "",
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -962,8 +962,8 @@ t1<-metamean(tmp1,
              subgroup = `Income group`
 )
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_medication_income.png', 
-    pointsize=10, width=4800, height=2600,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/AECOPD_medication_income.png', 
+    pointsize=10, width=5000, height=2600,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -973,9 +973,9 @@ forest(t1,
        ,fontsize=9,
        smlab = "",
        # ,xlim=c(0,3000)
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -1024,8 +1024,8 @@ t1<-metamean(tmp1,
              subgroup = Country
 )
 
-png('Output/Forest_plot_log tranformed_1 decimal_08032024/AECOPD_medication_country.png', 
-    pointsize=10, width=4800, height=4250,res=400)
+png('Output/Forest_plot_log tranformed_2 decimals_18032024/AECOPD_medication_country.png', 
+    pointsize=10, width=5000, height=4250,res=400)
 forest(t1, 
        # layout = "JAMA",
        leftcols = c("studlab","mean","sd","n"), #"complab",
@@ -1035,9 +1035,9 @@ forest(t1,
        ,fontsize=9,
        smlab = "",
        # ,xlim=c(0,3000)
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 dev.off()
 
@@ -1094,9 +1094,9 @@ forest(t1,
        ,fontsize=9,
        smlab = "",
        # ,xlim=c(0,3000)
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 
 
@@ -1150,9 +1150,9 @@ forest(t1,
        ,fontsize=9,
        smlab = "",
        # ,xlim=c(0,3000)
-       digits.mean = 1,
-       digits.sd = 1,
-       digits = 1
+       digits.mean = 2,
+       digits.sd = 2,
+       digits = 2
 )
 
 
